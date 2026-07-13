@@ -34,95 +34,102 @@ const products = [
   },
   {
     id: 5,
-    name: "Product 4",
+    name: "Product 5",
     price: 200,
     offer: 40,
     image: "/images/mainImage1.jpg",
   },
   {
     id: 6,
-    name: "Product 4",
+    name: "Product 6",
     price: 200,
     offer: 40,
     image: "/images/mainImage1.jpg",
   },
   {
     id: 7,
-    name: "Product 4",
+    name: "Product 7",
     price: 200,
     offer: 40,
     image: "/images/mainImage1.jpg",
   },
 ];
 
-const getItemsPerView = (width) => {
-  if (width < 620) return 1;
-  if (width < 850) return 2;
-  if (width < 1200) return 3;
-  return 4;
-};
+const GAP = 20; // must match gap-5
 
 export default function Flashsales() {
-  const [startIndex, setStartIndex] = useState(0);
-  const [itemWidth, setItemWidth] = useState(0);
-  const containerRef = useRef(null);
+  const [translateX, setTranslateX] = useState(0);
+  const viewportRef = useRef(null); // the overflow-hidden wrapper
+  const trackRef = useRef(null); // the flex track
 
-  const VISIBLE_COUNT = 4; // how many products you want visible at once
-  const GAP = 20; // must match gap-5 (5 * 4px = 20px)
-  const maxIndex = Math.max(products.length - VISIBLE_COUNT, 0);
+  const clamp = (x, maxScroll) => Math.max(0, Math.min(x, maxScroll));
 
-  // Measure the width of a single product card so we can calculate the offset
-  useEffect(() => {
-    if (containerRef.current) {
-      const firstChild = containerRef.current.children[0];
-      if (firstChild) {
-        setItemWidth(firstChild.getBoundingClientRect().width);
-      }
-    }
-  }, []);
+  const getMaxScroll = () => {
+    if (!viewportRef.current || !trackRef.current) return 0;
+    return Math.max(
+      trackRef.current.scrollWidth - viewportRef.current.clientWidth,
+      0,
+    );
+  };
 
   const handlePrev = () => {
-    setStartIndex((prev) => Math.max(prev - 1, 0));
+    const step =
+      trackRef.current?.children[0]?.getBoundingClientRect().width || 0;
+    setTranslateX((prev) => clamp(prev - (step + GAP), getMaxScroll()));
   };
 
   const handleNext = () => {
-    setStartIndex((prev) => Math.min(prev + 1, maxIndex));
+    const step =
+      trackRef.current?.children[0]?.getBoundingClientRect().width || 0;
+    setTranslateX((prev) => clamp(prev + (step + GAP), getMaxScroll()));
   };
 
-  const translateX = startIndex * (itemWidth + GAP);
+  // re-clamp on resize so a shrinking window never leaves translateX overshooting
+  useEffect(() => {
+    const onResize = () => {
+      setTranslateX((prev) => clamp(prev, getMaxScroll()));
+    };
+    window.addEventListener("resize", onResize);
+    onResize();
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const maxScroll = getMaxScroll();
+  const atStart = translateX <= 0;
+  const atEnd = translateX >= maxScroll;
 
   return (
     <div className="flex items-center flex-col mt-[100px] w-[90%]">
       <div className="flex justify-between items-center w-[100%]">
         <h2 className="text-2xl font-bold">Flash Sales</h2>
-        <div className="">
+        <div>
           <StopWatch />
         </div>
         <div className="flex gap-2">
           <button
             onClick={handlePrev}
-            disabled={startIndex === 0}
+            disabled={atStart}
             className="cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <img src="/icons/leftArrow.svg" alt="Previous" />
           </button>
           <button
             onClick={handleNext}
-            disabled={startIndex >= maxIndex}
+            disabled={atEnd}
             className="cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <img className="rotate-180" src="/icons/leftArrow.svg" alt="Next" />
           </button>
         </div>
       </div>
-      <div className=" overflow-hidden w-[100%] mt-10">
+      <div ref={viewportRef} className="overflow-hidden w-[100%] mt-10">
         <div
-          ref={containerRef}
+          ref={trackRef}
           className="flex justify-start gap-5 transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${translateX}px)` }}
         >
           {products.map((e) => (
-            <div className="" key={e.id}>
+            <div key={e.id}>
               <Product
                 image={e.image}
                 name={e.name}
