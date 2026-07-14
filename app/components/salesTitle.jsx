@@ -1,6 +1,6 @@
 export default function SalesTitle() {
   return (
-    <nav className="flex justify-center items-center bg-black p-3">
+    <nav className="flex w-[100%] justify-center items-center bg-black p-3">
       <style>{`
         @keyframes colorFlip {
           0%, 49% { color: white; }

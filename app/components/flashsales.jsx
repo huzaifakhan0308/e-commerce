@@ -99,7 +99,7 @@ export default function Flashsales() {
   const atEnd = translateX >= maxScroll;
 
   return (
-    <div className="flex items-center flex-col mt-[100px] w-[90%]">
+    <div className="flex items-center flex-col mt-[100px] w-[100%]">
       <div className="flex justify-between items-center w-[100%]">
         <h2 className="text-2xl font-bold">Flash Sales</h2>
         <div>

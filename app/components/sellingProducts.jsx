@@ -55,7 +55,7 @@ export default function SellingProducts() {
   }, []);
 
   return (
-    <div className="flex items-center flex-col mt-[100px] w-[90%]">
+    <div className="flex items-center flex-col mt-[100px] w-[100%]">
       <div className="flex justify-between items-center w-[100%]">
         <h2 className="text-2xl font-bold">Best Selling Products</h2>
         <Link href="/best-selling-products">

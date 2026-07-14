@@ -29,7 +29,7 @@ const products = [
 
 export default function NewArivels() {
   return (
-    <div className="flex w-[90%] mt-[50px] h-[600px] gap-5 text-white">
+    <div className="flex w-[100%] mt-[50px] h-[600px] gap-5 text-white">
       <div className="relative h-full w-[50%] rounded-[5px] overflow-hidden">
         <img
           className="absolute z-1 w-full h-full object-cover"

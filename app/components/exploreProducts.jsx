@@ -106,7 +106,6 @@ export default function Flashsales() {
       const firstChild = trackRef.current?.children[0];
       if (firstChild) setItemWidth(firstChild.getBoundingClientRect().width);
 
-      // clamp startCol so we don't end up scrolled past the new max on resize
       setStartCol((prev) => {
         const newVisibleCols = nextVisible / ROWS;
         const newMaxCol = Math.max(totalCols - newVisibleCols, 0);
@@ -116,7 +115,6 @@ export default function Flashsales() {
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePrev = () =>
@@ -127,7 +125,7 @@ export default function Flashsales() {
   const translateX = startCol * (itemWidth + GAP);
 
   return (
-    <div className="flex items-center flex-col mt-[100px] w-[90%]">
+    <div className="flex items-center flex-col mt-[100px] w-[100%]">
       <div className="flex justify-between items-center w-[100%]">
         <h2 className="text-2xl font-bold">Explore Our Products</h2>
         <div className="flex gap-2">
