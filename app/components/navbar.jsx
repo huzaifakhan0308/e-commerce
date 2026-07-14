@@ -12,12 +12,16 @@ export default function Navbar() {
             Home
           </button>
         </Link>
-        <button className="m-2 sm:m-3 md:m-4 lg:m-5 cursor-pointer border-b-2 border-transparent hover:border-b-black">
-          Contact
-        </button>
-        <button className="m-2 sm:m-3 md:m-4 lg:m-5 cursor-pointer border-b-2 border-transparent hover:border-b-black">
-          About
-        </button>
+        <Link href="/contact">
+          <button className="m-2 sm:m-3 md:m-4 lg:m-5 cursor-pointer border-b-2 border-transparent hover:border-b-black">
+            Contact
+          </button>
+        </Link>
+        <Link href="/about">
+          <button className="m-2 sm:m-3 md:m-4 lg:m-5 cursor-pointer border-b-2 border-transparent hover:border-b-black">
+            About
+          </button>
+        </Link>
         <Link href="/sign-up">
           <button className="m-2 sm:m-3 md:m-4 lg:m-5 cursor-pointer border-b-2 border-transparent hover:border-b-black">
             Sign Up
