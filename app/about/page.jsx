@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Trust from "../components/trust";
 
 const about = [
   {
@@ -24,6 +25,27 @@ const about = [
     img: "/icons/Services2.svg",
     title: "Annual gross sale on our sites",
     numbers: "25k",
+  },
+];
+
+const managments = [
+  {
+    id: 1,
+    img: "/images/frame1.png",
+    title: "Tom cruise",
+    numbers: "Founder and chairman",
+  },
+  {
+    id: 2,
+    img: "/images/frame2.png",
+    title: "Ema Watson",
+    numbers: "Managing Director",
+  },
+  {
+    id: 3,
+    img: "/images/frame3.png",
+    title: "Will Smith",
+    numbers: "Product Manager",
   },
 ];
 
@@ -62,6 +84,21 @@ export default function About() {
           </div>
         ))}
       </div>
+      <div className="w-6xl flex items-center justify-between featuer-icons mt-15">
+        {managments.map((e) => (
+          <div key={e.id} className="flex flex-col items-start w-[220px]">
+            <img className="w-full h-full object-cover" src={e.img} alt="" />
+            <h3 className="text-2xl mt-2">{e.title}</h3>
+            <span className="text-sm">{e.numbers}</span>
+            <div className="flex gap-2 mt-4">
+              <img src="/icons/instagram-bk.svg" alt="" />
+              <img src="/icons/twitter-bk.svg" alt="" />
+              <img src="/icons/linkedin-bk.svg" alt="" />
+            </div>
+          </div>
+        ))}
+      </div>
+      <Trust />
     </div>
   );
 }
