@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function SignUp() {
   return (
-    <div className="">
+    <div className="w-full">
       <div className="flex w-full h-[100vh]">
         <div className="w-[50%]">
           <img src="/images/signin.png" alt="" />
