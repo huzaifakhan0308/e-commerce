@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Input, TextArea } from "../components/ui/input";
+import { Input, TextArea } from "../../components/ui/input";
 
 const about = [
   {

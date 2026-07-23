@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Trust from "../components/trust";
+import Trust from "../../components/trust";
 
 const about = [
   {

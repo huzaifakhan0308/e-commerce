@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Flashsales from "./components/flashsales";
-import SellingProducts from "./components/sellingProducts";
-import NewArivals from "./components/newArivels";
-import ExploreProducts from "./components/exploreProducts";
-import StopWatch from "./components/stopWatch";
+import Flashsales from "../components/flashsales";
+import SellingProducts from "../components/sellingProducts";
+import NewArivals from "../components/newArivels";
+import ExploreProducts from "../components/exploreProducts";
+import StopWatch from "../components/stopWatch";
 import Link from "next/link";
-import Trust from "./components/trust";
+import Trust from "../components/trust";
 
 const images = [
   "/images/mainImage1.jpg",
