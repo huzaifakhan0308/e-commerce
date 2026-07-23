@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "../../components/ui/button";
+import { Button } from "../../../components/ui/button";
 
 const stars = [1, 2, 3, 4, 5];
 
