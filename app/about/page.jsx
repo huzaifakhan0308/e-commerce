@@ -31,19 +31,19 @@ const about = [
 const managments = [
   {
     id: 1,
-    img: "/images/frame1.png",
+    img: "/images/about1.png",
     title: "Tom cruise",
     numbers: "Founder and chairman",
   },
   {
     id: 2,
-    img: "/images/frame2.png",
+    img: "/images/about2.png",
     title: "Ema Watson",
     numbers: "Managing Director",
   },
   {
     id: 3,
-    img: "/images/frame3.png",
+    img: "/images/about3.png",
     title: "Will Smith",
     numbers: "Product Manager",
   },
@@ -69,7 +69,7 @@ export default function About() {
           </p>
         </div>
         <div className="w-[50%]">
-          <img src="/images/signin.png" alt="" />
+          <img src="/images/sideImage.png" alt="" />
         </div>
       </div>
       <div className="w-6xl flex items-center justify-between featuer-icons mt-15">

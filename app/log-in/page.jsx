@@ -5,7 +5,7 @@ export default function LogIn() {
     <div className="w-full">
       <div className="flex w-full h-[100vh]">
         <div className="w-[50%]">
-          <img src="/images/signin.png" alt="" />
+          <img src="/images/signInPage.png" alt="" />
         </div>
         <div className="w-[50%] flex justify-center items-center">
           <div className="w-[50%]">
