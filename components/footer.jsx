@@ -27,7 +27,6 @@ export default function Footer() {
           <div className="flex flex-start flex-col gap-3">
             <h3 className="font-bold text-2xl">Account</h3>
             <span>login / Register</span>
-            <span>Cart</span>
             <span>Wishlist</span>
             <span>Shop</span>
           </div>
