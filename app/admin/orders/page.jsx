@@ -1,16 +1,73 @@
 "use client";
+import { useEffect, useState } from "react";
 import DataTable from "../../../components/admin/Table";
 
-// Placeholder data — replace with a real fetch once you build the orders API.
-// Suggested shape per order: { _id, userEmail, items: [...], total, status, createdAt }
-const mockOrders = [];
+const statusColors = {
+  pending: "bg-yellow-100 text-yellow-700",
+  processing: "bg-blue-100 text-blue-700",
+  shipped: "bg-purple-100 text-purple-700",
+  delivered: "bg-green-100 text-green-700",
+  cancelled: "bg-red-100 text-red-700",
+};
 
 export default function AdminOrders() {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchOrders = () => {
+    fetch(`${process.env.NEXT_PUBLIC_ECOMMERCE_BE_API}/orders`)
+      .then((res) => res.json())
+      .then((data) => setOrders(data))
+      .catch(() => setOrders([]))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const handleStatusChange = async (id, status) => {
+    await fetch(
+      `${process.env.NEXT_PUBLIC_ECOMMERCE_BE_API}/orders/${id}/status`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      },
+    );
+    fetchOrders();
+  };
+
   const columns = [
-    { key: "_id", label: "Order ID" },
+    { key: "_id", label: "Order ID", render: (row) => row._id.slice(-8) },
     { key: "userEmail", label: "Customer" },
-    { key: "total", label: "Total", render: (row) => `$${row.total}` },
-    { key: "status", label: "Status" },
+    {
+      key: "items",
+      label: "Items",
+      render: (row) => `${row.items.length} item(s)`,
+    },
+    {
+      key: "total",
+      label: "Total",
+      render: (row) => `$${row.total.toFixed(2)}`,
+    },
+    {
+      key: "status",
+      label: "Status",
+      render: (row) => (
+        <select
+          value={row.status}
+          onChange={(e) => handleStatusChange(row._id, e.target.value)}
+          className={`px-2 py-1 rounded-[4px] text-xs cursor-pointer border-0 ${statusColors[row.status]}`}
+        >
+          {Object.keys(statusColors).map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </select>
+      ),
+    },
     {
       key: "createdAt",
       label: "Date",
@@ -20,16 +77,11 @@ export default function AdminOrders() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-5">Orders ({mockOrders.length})</h1>
-      <p className="text-gray-500 mb-4 text-sm">
-        Orders backend isn't built yet — this table is wired up and ready, just
-        swap <code className="bg-gray-100 px-1 rounded">mockOrders</code> for a
-        real fetch once the API exists.
-      </p>
+      <h1 className="text-2xl font-bold mb-5">Orders ({orders.length})</h1>
       <DataTable
         columns={columns}
-        rows={mockOrders}
-        loading={false}
+        rows={orders}
+        loading={loading}
         emptyText="No orders yet"
       />
     </div>
