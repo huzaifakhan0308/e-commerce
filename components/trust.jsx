@@ -13,7 +13,7 @@ export default function Trust() {
       </div>
       <div className="flex flex-col items-center gap-2">
         <img className="h-12" src="icons/badge.svg" alt="" />
-        <h3 className="font-bold">MONEY BACK GUARANTEE</h3>
+        <h3 className="font-bold">MONEY BACK GUARANTE</h3>
         <span>We return money within 30 days</span>
       </div>
     </div>
