@@ -23,6 +23,7 @@ export default function NewProduct() {
     e.preventDefault();
     setError("");
     setSubmitting(true);
+    console.log(images);
 
     try {
       const formData = new FormData();

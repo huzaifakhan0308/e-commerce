@@ -13,7 +13,12 @@ export default function AdminProducts() {
       .then((data) => setProducts(data))
       .catch(() => setProducts([]))
       .finally(() => setLoading(false));
+    console.log("products", products);
   }, []);
+
+  useEffect(() => {
+    console.log("products", products);
+  }, [products]);
 
   const handleDelete = async (id) => {
     if (!confirm("Delete this product?")) return;
@@ -30,7 +35,7 @@ export default function AdminProducts() {
       render: (row) =>
         row.images?.[0] ? (
           <img
-            src={`data:${row.images[0].imageType};base64,${row.images[0].data}`}
+            src={`data:${row.images[0].imageType};base64,${row.images[0].image}`}
             className="w-12 h-12 object-cover rounded-[4px]"
             alt=""
           />

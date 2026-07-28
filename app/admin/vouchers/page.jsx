@@ -28,9 +28,9 @@ export default function AdminVouchers() {
       key: "image",
       label: "Image",
       render: (row) =>
-        row.imageUrl ? (
+        row.image ? (
           <img
-            src={row.imageUrl}
+            src={`data:${row.imageType};base64,${row.image}`}
             className="w-12 h-12 object-cover rounded-[4px]"
             alt=""
           />

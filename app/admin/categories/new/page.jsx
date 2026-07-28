@@ -25,7 +25,7 @@ export default function NewCategory() {
       formData.append("image", image);
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_ECOMMERCE_BE_API}/categories`,
+        `${process.env.NEXT_PUBLIC_ECOMMERCE_BE_API}/category`,
         {
           method: "POST",
           body: formData,

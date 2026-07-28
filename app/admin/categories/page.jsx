@@ -8,21 +8,18 @@ export default function AdminCategories() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_ECOMMERCE_BE_API}/categories`)
+    fetch(`${process.env.NEXT_PUBLIC_ECOMMERCE_BE_API}/category`)
       .then((res) => res.json())
-      .then((data) => setCategories(Array.isArray(data) ? data : []))
+      .then((data) => setCategories(data))
       .catch(() => setCategories([]))
       .finally(() => setLoading(false));
   }, []);
 
   const handleDelete = async (id) => {
     if (!confirm("Delete this category?")) return;
-    await fetch(
-      `${process.env.NEXT_PUBLIC_ECOMMERCE_BE_API}/categories/${id}`,
-      {
-        method: "DELETE",
-      },
-    );
+    await fetch(`${process.env.NEXT_PUBLIC_ECOMMERCE_BE_API}/category/${id}`, {
+      method: "DELETE",
+    });
     setCategories((prev) => prev.filter((c) => c._id !== id));
   };
 

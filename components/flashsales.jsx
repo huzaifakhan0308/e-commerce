@@ -1,66 +1,31 @@
+"use client";
 import { useEffect, useRef, useState } from "react";
 import Product from "./product";
 import StopWatch from "./stopWatch";
 import Link from "next/link";
-
-const products = [
-  {
-    id: 1,
-    name: "Product 1",
-    price: 120,
-    offer: 40,
-    image: "/images/mainImage1.jpg",
-  },
-  {
-    id: 2,
-    name: "Product 2",
-    price: 140,
-    offer: 30,
-    image: "/images/mainImage2.jpg",
-  },
-  {
-    id: 3,
-    name: "Product 3",
-    price: 150,
-    offer: 20,
-    image: "/images/mainImage3.jpg",
-  },
-  {
-    id: 4,
-    name: "Product 4",
-    price: 200,
-    offer: 40,
-    image: "/images/mainImage1.jpg",
-  },
-  {
-    id: 5,
-    name: "Product 5",
-    price: 200,
-    offer: 40,
-    image: "/images/mainImage1.jpg",
-  },
-  {
-    id: 6,
-    name: "Product 6",
-    price: 200,
-    offer: 40,
-    image: "/images/mainImage1.jpg",
-  },
-  {
-    id: 7,
-    name: "Product 7",
-    price: 200,
-    offer: 40,
-    image: "/images/mainImage1.jpg",
-  },
-];
+import SectionHeader from "../components/ui/sectionHeader";
 
 const GAP = 20; // must match gap-5
 
 export default function Flashsales() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [translateX, setTranslateX] = useState(0);
-  const viewportRef = useRef(null); // the overflow-hidden wrapper
-  const trackRef = useRef(null); // the flex track
+  const viewportRef = useRef(null);
+  const trackRef = useRef(null);
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_ECOMMERCE_BE_API}/products`)
+      .then((res) => res.json())
+      .then((data) => {
+        const discounted = data.filter(
+          (p) => p.discountPrice != null && p.discountPrice < p.price,
+        );
+        setProducts(discounted);
+      })
+      .catch(() => setProducts([]))
+      .finally(() => setLoading(false));
+  }, []);
 
   const clamp = (x, maxScroll) => Math.max(0, Math.min(x, maxScroll));
 
@@ -84,7 +49,6 @@ export default function Flashsales() {
     setTranslateX((prev) => clamp(prev + (step + GAP), getMaxScroll()));
   };
 
-  // re-clamp on resize so a shrinking window never leaves translateX overshooting
   useEffect(() => {
     const onResize = () => {
       setTranslateX((prev) => clamp(prev, getMaxScroll()));
@@ -92,7 +56,7 @@ export default function Flashsales() {
     window.addEventListener("resize", onResize);
     onResize();
     return () => window.removeEventListener("resize", onResize);
-  }, []);
+  }, [products]);
 
   const maxScroll = getMaxScroll();
   const atStart = translateX <= 0;
@@ -101,9 +65,13 @@ export default function Flashsales() {
   return (
     <div className="flex items-center flex-col mt-[100px] w-[100%]">
       <div className="flex justify-between items-center w-[100%]">
-        <h2 className="text-2xl font-bold">Flash Sales</h2>
+        <SectionHeader label={"Today's"} heading={"Flash Sales"} />
         <div>
-          <StopWatch />
+          <StopWatch
+            expiresAt={new Date(
+              Date.now() + 3 * 24 * 60 * 60 * 1000,
+            ).toISOString()}
+          />
         </div>
         <div className="flex gap-2">
           <button
@@ -122,27 +90,46 @@ export default function Flashsales() {
           </button>
         </div>
       </div>
-      <div ref={viewportRef} className="overflow-hidden w-[100%] mt-10">
-        <div
-          ref={trackRef}
-          className="flex justify-start gap-5 transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${translateX}px)` }}
-        >
-          {products.map((e) => (
-            <div key={e.id}>
-              <Product
-                image={e.image}
-                name={e.name}
-                price={e.price}
-                offer={e.offer}
-                offerTrue={true}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
 
-      <Link href="/all-products">
+      {loading && <p className="mt-10 text-gray-400">Loading...</p>}
+
+      {!loading && products.length === 0 && (
+        <p className="mt-10 text-gray-400">No discounted products right now</p>
+      )}
+
+      {!loading && products.length > 0 && (
+        <div ref={viewportRef} className="overflow-hidden w-[100%] mt-10">
+          <div
+            ref={trackRef}
+            className="flex justify-start gap-5 transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${translateX}px)` }}
+          >
+            {products.map((p) => {
+              const offer = Math.round(
+                ((p.price - p.discountPrice) / p.price) * 100,
+              );
+              const image = p.images?.[0]
+                ? `data:${p.images[0].imageType};base64,${p.images[0].image}`
+                : "/images/mainImage1.jpg";
+
+              return (
+                <div key={p._id}>
+                  <Product
+                    id={p._id}
+                    image={image}
+                    name={p.name}
+                    price={p.price}
+                    offer={offer}
+                    offerTrue={true}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <Link href="/flash-sales">
         <button className="px-[40px] py-[12px] bg-[#db4444] mt-10 cursor-pointer text-white rounded-[4px]">
           View All Products
         </button>

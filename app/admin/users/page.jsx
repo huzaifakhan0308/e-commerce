@@ -22,6 +22,7 @@ export default function AdminUsers() {
       render: (row) => row.lastName || "—",
     },
     { key: "email", label: "Email" },
+    { key: "role", label: "Role" },
     { key: "address", label: "Address", render: (row) => row.address || "—" },
     {
       key: "createdAt",
