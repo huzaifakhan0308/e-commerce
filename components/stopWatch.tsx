@@ -2,7 +2,11 @@
 
 import { useState, useEffect } from "react";
 
-export default function StopWatch({ expiresAt }) {
+interface StopWatchProps {
+  expiresAt?: string;
+}
+
+export default function StopWatch({ expiresAt }: StopWatchProps) {
   const [timeLeft, setTimeLeft] = useState(0);
 
   useEffect(() => {
@@ -15,7 +19,7 @@ export default function StopWatch({ expiresAt }) {
       setTimeLeft(remaining > 0 ? remaining : 0);
     };
 
-    updateTimeLeft(); // run immediately so there's no 1s delay on load
+    updateTimeLeft();
     const timer = setInterval(updateTimeLeft, 1000);
 
     return () => clearInterval(timer);
@@ -29,7 +33,7 @@ export default function StopWatch({ expiresAt }) {
     const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-    const pad = (num) => num.toString().padStart(2, "0");
+    const pad = (num: number) => num.toString().padStart(2, "0");
 
     return {
       days,
@@ -45,7 +49,7 @@ export default function StopWatch({ expiresAt }) {
   if (!expiresAt) return null;
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 text-white">
+    <div className="flex flex-col items-center justify-center p-6 w-72 text-white">
       {saleEnded ? (
         <div className="text-xl font-bold text-red-500 mb-2">Sale Ended</div>
       ) : (
@@ -63,7 +67,12 @@ export default function StopWatch({ expiresAt }) {
   );
 }
 
-function TimeUnit({ value, label }) {
+interface TimeUnitProps {
+  value: number | string;
+  label: string;
+}
+
+function TimeUnit({ value, label }: TimeUnitProps) {
   return (
     <div className="flex flex-col items-center">
       <div className="text-3xl font-bold bg-gray-800 rounded-lg px-3 py-2 min-w-[56px] text-center">
