@@ -145,6 +145,23 @@ export default function MyAccount() {
 
         <form onSubmit={handleSubmit} className="w-[100%] h-[100%]">
           <div className="flex gap-5 grid grid-rows-2 grid-cols-2 w-[100%]">
+            <div
+              style={{ position: "absolute", top: "-9999px", left: "-9999px" }}
+              aria-hidden="true"
+            >
+              <input
+                type="text"
+                name="fake-username"
+                tabIndex={-1}
+                autoComplete="username"
+              />
+              <input
+                type="password"
+                name="fake-password"
+                tabIndex={-1}
+                autoComplete="current-password"
+              />
+            </div>
             <Input
               type={"text"}
               placeholder={"First Name"}
@@ -180,6 +197,7 @@ export default function MyAccount() {
               placeholder={"Current Password"}
               className={"w-[100%]"}
               value={currentPassword}
+              autoComplete="new-password" // 👈 Add this line
               onChange={(e) => setCurrentPassword(e.target.value)}
             />
             <Input
@@ -187,6 +205,7 @@ export default function MyAccount() {
               placeholder={"New Password"}
               className={"w-[100%]"}
               value={newPassword}
+              autoComplete="new-password" // 👈 Add this line
               onChange={(e) => setNewPassword(e.target.value)}
             />
             <Input
@@ -194,6 +213,7 @@ export default function MyAccount() {
               placeholder={"Confirm New Password"}
               className={"w-[100%]"}
               value={confirmNewPassword}
+              autoComplete="new-password" // 👈 Add this line
               onChange={(e) => setConfirmNewPassword(e.target.value)}
             />
             <div className="flex gap-2 self-end mt-10">
