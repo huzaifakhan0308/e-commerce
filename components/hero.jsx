@@ -51,22 +51,22 @@ export default function HeroSection() {
       <div className="hidden lg:block w-[220px] shrink-0">
         <ul className="flex flex-col">
           {categories.map((cat) => (
-            <li
-              key={cat}
-              className="flex items-center justify-between py-2 text-sm text-gray-700 hover:text-black cursor-pointer"
-            >
-              <span>{cat}</span>
-              {hasArrow.includes(cat) && (
-                <ChevronRight className="w-4 h-4 text-gray-400" />
-              )}
+            <li key={cat}>
+              <Link
+                href={"/all-products"}
+                className="flex items-center justify-between py-2 text-sm text-gray-700 hover:text-black cursor-pointer w-full"
+              >
+                <span>{cat}</span>
+                {hasArrow.includes(cat) && (
+                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                )}
+              </Link>
             </li>
           ))}
         </ul>
       </div>
-
       {/* Divider between sidebar and banner */}
       <div className="hidden lg:block w-px bg-gray-200" />
-
       {/* Banner / Carousel */}
       <Link
         href="/all-products"
