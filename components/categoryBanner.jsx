@@ -24,16 +24,19 @@ export default function CategoryBanner() {
   const imageSrc = `data:${category.imageType};base64,${category.image}`;
 
   return (
-    <div className="w-full border relative mt-[20px] sm:h-[15rem] md:h-[17rem] lg:h-[27rem] overflow-hidden">
+    <div className="w-full relative mt-[20px] sm:h-[15rem] md:h-[17rem] lg:h-[27rem] overflow-hidden">
       <img src={imageSrc} alt="" className="w-full h-full object-cover" />
-      <div className="max-w-[430px] absolute z-10 top-[40px] left-[40px] flex flex-col gap-2 border border-white-1000">
+      <div className="max-w-[430px] absolute z-10 top-[40px] left-[40px] flex flex-col gap-2">
         <span className="text-[#00FF66]">Categories</span>
         <h2 className="text-white text-5xl font-medium">
           Enhance Your Music Experience
         </h2>
         <StopWatch className="ml-5" expiresAt={category.expiresAt} />
-        <button className="px-[40px] py-[12px] bg-[#00FF66] mt-10 cursor-pointer text-white rounded-[4px]">
-          <Link href="/all-products" className="h-full w-full">
+        <button className="px-[40px] py-[12px] bg-[#00FF66] mt-10 cursor-pointer text-white rounded-[4px] flex items-center justify-center">
+          <Link
+            href="/all-products"
+            className="inline-flex items-center justify-center w-full h-full"
+          >
             Buy Now
           </Link>
         </button>
