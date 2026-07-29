@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const products = [
@@ -30,43 +31,31 @@ const products = [
 export default function NewArivels() {
   return (
     <div className="flex w-[100%] mt-[50px] h-[600px] gap-5 text-white">
-      <div className="relative h-full w-[50%] rounded-[5px] overflow-hidden">
-        <img className=" z-1 object-cover" src={products[0].image} alt="" />
-        {/* <div className="absolute bottom-5 left-5 z-10">
-          <h3 className="font-bold ">{products[0].name}</h3>
-          <p className="max-w-[300px]">{products[0].detail}</p>
-          <button className="">Shop now</button>
-        </div> */}
+      <div className="h-full w-[50%] rounded-[5px] cursor-pointer">
+        <Link href={"/all-products"} className="h-full w-full">
+          <img className="object-cover" src={products[0].image} alt="" />
+        </Link>
       </div>
       <div className="flex flex-col h-full w-[50%] gap-5">
-        <div className="relative  h-[50%] w-full rounded-[5px] overflow-hidden">
-          <img
-            className=" object-cover w-full"
-            src={products[1].image}
-            alt=""
-          />
-          {/* <div className="absolute bottom-5 left-5 z-10">
-            <h3 className="font-bold">{products[1].name}</h3>
-            <p className="max-w-[300px]">{products[1].detail}</p>
-            <button className="">Shop now</button>
-          </div> */}
+        <div className="cursor-pointer  h-[50%] w-full rounded-[5px]">
+          <Link href={"/all-products"} className="h-full w-full">
+            <img
+              className="object-cover w-full"
+              src={products[1].image}
+              alt=""
+            />
+          </Link>
         </div>
         <div className="flex justify-between h-[50%] w-full">
-          <div className="relative h-full  rounded-[5px] overflow-hidden">
-            <img className=" object-cover" src={products[2].image} alt="" />
-            {/* <div className="absolute bottom-5 left-5 z-10">
-              <h3 className="">{products[2].name}</h3>
-              <p className="max-w-[300px]">{products[2].detail}</p>
-              <button className="">Shop now</button>
-            </div> */}
+          <div className="cursor-pointer h-full  rounded-[5px]">
+            <Link href={"/all-products"} className="h-full w-full">
+              <img className=" object-cover" src={products[2].image} alt="" />
+            </Link>
           </div>
-          <div className="relative h-full rounded-[5px] overflow-hidden">
-            <img className=" object-cover" src={products[3].image} alt="" />
-            {/* <div className="absolute bottom-5 left-5 z-10">
-              <h3 className="">{products[3].name}</h3>
-              <p className="max-w-[300px]">{products[3].detail}</p>
-              <button className="">Shop now</button>
-            </div> */}
+          <div className="cursor-pointer h-full rounded-[5px]">
+            <Link href={"/all-products"} className="h-full w-full">
+              <img className=" object-cover" src={products[3].image} alt="" />
+            </Link>
           </div>
         </div>
       </div>
