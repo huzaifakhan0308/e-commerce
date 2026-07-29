@@ -9,10 +9,18 @@ export default function MyAccount() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -52,6 +60,66 @@ export default function MyAccount() {
     fetchProfile();
   }, [router]);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (newPassword || confirmNewPassword || currentPassword) {
+      if (!currentPassword) {
+        setError("Please enter your current password");
+        return;
+      }
+      if (newPassword.length < 6) {
+        setError("New password must be at least 6 characters");
+        return;
+      }
+      if (newPassword !== confirmNewPassword) {
+        setError("New passwords do not match");
+        return;
+      }
+    }
+
+    setSaving(true);
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const body = { firstName, lastName, email, address };
+      if (newPassword) {
+        body.currentPassword = currentPassword;
+        body.newPassword = newPassword;
+      }
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_ECOMMERCE_BE_API}/users/me`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(body),
+        },
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to update profile");
+      }
+
+      setUser(data);
+      setSuccess("Profile updated successfully");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmNewPassword("");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[60vh]">
@@ -71,7 +139,11 @@ export default function MyAccount() {
       </h3>
       <div className="p-8 rounded-[5px] shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
         <h2 className="mb-5">Edit your Profile</h2>
-        <form action="" className="w-[100%] h-[100%]">
+
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {success && <p className="text-green-600 mb-4">{success}</p>}
+
+        <form onSubmit={handleSubmit} className="w-[100%] h-[100%]">
           <div className="flex gap-5 grid grid-rows-2 grid-cols-2 w-[100%]">
             <Input
               type={"text"}
@@ -107,25 +179,35 @@ export default function MyAccount() {
               type={"password"}
               placeholder={"Current Password"}
               className={"w-[100%]"}
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
             />
             <Input
               type={"password"}
               placeholder={"New Password"}
               className={"w-[100%]"}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
             />
             <Input
               type={"password"}
               placeholder={"Confirm New Password"}
               className={"w-[100%]"}
+              value={confirmNewPassword}
+              onChange={(e) => setConfirmNewPassword(e.target.value)}
             />
             <div className="flex gap-2 self-end mt-10">
               <button
                 type="button"
+                onClick={() => router.push("/")}
                 className="px-[40px] py-[12px] bg-[#0000] cursor-pointer text-black"
               >
                 Cancel
               </button>
-              <Button title="Save changes" />
+              <Button
+                title={saving ? "Saving..." : "Save changes"}
+                onClick={handleSubmit}
+              />
             </div>
           </div>
         </form>
