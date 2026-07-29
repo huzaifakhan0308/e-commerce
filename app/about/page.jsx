@@ -38,13 +38,13 @@ const managments = [
   {
     id: 2,
     img: "/images/about2.png",
-    title: "Ema Watson",
+    title: "Will Smith",
     numbers: "Managing Director",
   },
   {
     id: 3,
     img: "/images/about3.png",
-    title: "Will Smith",
+    title: "Ema Watson",
     numbers: "Product Manager",
   },
 ];

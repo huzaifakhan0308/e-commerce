@@ -32,11 +32,11 @@ export default function CategoryBanner() {
           Enhance Your Music Experience
         </h2>
         <StopWatch className="ml-5" expiresAt={category.expiresAt} />
-        <Link href="/">
-          <button className="px-[40px] py-[12px] bg-[#00FF66] mt-10 cursor-pointer text-white rounded-[4px]">
+        <button className="px-[40px] py-[12px] bg-[#00FF66] mt-10 cursor-pointer text-white rounded-[4px]">
+          <Link href="/all-products" className="h-full w-full">
             Buy Now
-          </button>
-        </Link>
+          </Link>
+        </button>
       </div>
     </div>
   );
